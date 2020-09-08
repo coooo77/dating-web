@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <Navbar />
-    <router-view />
+    <main>      
+      <router-view />
+    </main>
   </div>
 </template>
 
@@ -53,5 +55,19 @@ body::-webkit-scrollbar-thumb {
   --text-secondary: #35535c;
   --bg-primary: #fdf6e3;
   --bg-secondary: #f5e5b8;
+}
+
+@media only screen and (max-width: 600px) {
+  main {
+    margin: auto;
+    margin-bottom: 5rem;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  main {
+    margin: auto;
+    margin-left:5rem;
+  }
 }
 </style>
