@@ -8,6 +8,7 @@
         :key="user.id"
         :user="user"
         @afterChangeLiked="afterChangeLiked"
+        @afterClickUser="afterClickUser"
       />
     </div>
   </div>
@@ -198,6 +199,9 @@ export default {
       this.users.forEach((user) => {
         if (user.id === id) user.isLiked = !user.isLiked;
       });
+    },
+    afterClickUser(user) {
+      this.$emit("passUserToModal", user);
     },
   },
   name: "View-Users",

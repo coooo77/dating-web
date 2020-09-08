@@ -2,9 +2,9 @@
   <div id="app">
     <Navbar />
     <main>
-      <router-view />
+      <router-view @passUserToModal="passUserToModal" />
     </main>
-    <Modal />
+    <Modal :modalUser="modalUser" />
   </div>
 </template>
 
@@ -23,6 +23,16 @@ export default {
     // 用sessionStorage當作資料庫紀錄喜歡的使用者id
     const liked = JSON.parse(sessionStorage.getItem("like"));
     if (!liked) sessionStorage.setItem("like", "[]");
+  },
+  data() {
+    return {
+      modalUser: {},
+    };
+  },
+  methods: {
+    passUserToModal(user) {
+      this.modalUser = user;
+    },
   },
 };
 </script>

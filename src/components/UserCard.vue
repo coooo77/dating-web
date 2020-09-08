@@ -6,12 +6,12 @@
         <i class="far fa-heart" v-else></i>
       </div>
       <img class="card-img-top" src="https://picsum.photos/350/100?random=0" alt="Card image cap" />
-      <div class="card-body" data-toggle="modal" data-target="#modal">
+      <div class="card-body" data-toggle="modal" data-target="#modal" @click="clickUser(user)">
         <img :src="user.picture.large" alt class="avatar" />
         <h5 class="card-title">
           {{user.name}}
-          <i class="fas fa-venus" v-if="user.gender === 'female'"></i>
-          <i class="fas fa-mars" v-else></i>
+          <i class="fas fa-venus text-danger" v-if="user.gender === 'female'"></i>
+          <i class="fas fa-mars text-primary" v-else></i>
         </h5>
         <p
           class="card-text"
@@ -41,6 +41,9 @@ export default {
       sessionStorage.setItem("like", JSON.stringify(likedUsers));
 
       this.$emit("afterChangeLiked", user.id);
+    },
+    clickUser(user) {
+      this.$emit("afterClickUser", user);
     },
   },
 };

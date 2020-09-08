@@ -10,7 +10,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-info text-white">
-          <h5 class="modal-title" id="modal-title">Vanessa</h5>
+          <h5 class="modal-title" id="modal-title">{{modalUser.name}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
@@ -19,27 +19,28 @@
         <div class="modal-body" id="modal-body">
           <div class="row align-items-center">
             <div class="col-sm-12 col-md-6 text-center">
-              <img
-                src="https://randomuser.me/api/portraits/women/17.jpg"
-                class="img-fluid rounded-circle"
-              />
+              <img :src="modalUser.picture.large" class="img-fluid rounded-circle" />
               <h3>
-                Vanessa Davis
+                {{modalUser.name}}
                 <span>
-                  <i class="fas fa-venus text-danger"></i>
+                  <i class="fas fa-venus text-danger" v-if="modalUser.gender === 'female'"></i>
+                  <i class="fas fa-mars text-primary" v-else></i>
                 </span>
               </h3>
             </div>
             <div class="col-sm-12 col-md-6">
               <ul class="list-group">
                 <li class="list-group-item">
-                  <i class="fas fa-birthday-cake text-info"></i> 1987-08-08 (33)
+                  <i class="fas fa-birthday-cake text-info"></i>
+                  {{modalUser.dob.date}} ({{modalUser.dob.age}}歲)
                 </li>
                 <li class="list-group-item">
-                  <i class="fas fa-envelope text-info"></i> vanessa.davis@example.com
+                  <i class="fas fa-envelope text-info"></i>
+                  {{modalUser.email}}
                 </li>
                 <li class="list-group-item">
-                  <i class="fas fa-map-marker-alt text-info"></i> AU
+                  <i class="fas fa-map-marker-alt text-info"></i>
+                  {{modalUser.location.city}}
                 </li>
                 <li class="list-group-item">
                   <span class="font-weight-bold">Join From</span> Wed Sep 09 2020 04:08:24 GMT+0800 (台北標準時間)
@@ -59,3 +60,16 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: "componentsModal",
+  props: {
+    modalUser: {
+      type: Object,
+      required: true,
+    },
+  },
+  // TODO mixins 處理生日格式
+};
+</script>
