@@ -41,7 +41,7 @@
   background-color: var(--bg-primary);
   transition: width 100ms ease;
   padding: 0;
-  /* border:solid red 1px; */
+  z-index: 999;
 }
 
 .navbar-nav {
@@ -51,8 +51,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;    
-  /* border:solid green 1px; */
+  height: 100%;      
 }
 
 .nav-item {
