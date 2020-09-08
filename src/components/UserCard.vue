@@ -2,14 +2,16 @@
   <div class="col-6 col-lg-4 col-xl-3 mb-4">
     <div class="card">
       <div class="like">
-        <i class="far fa-heart"></i>
+        <i class="fas fa-heart" v-if="user.isLiked"></i>
+        <i class="far fa-heart" v-else></i>
       </div>
       <img class="card-img-top" src="https://picsum.photos/350/100?random=0" alt="Card image cap" />
       <div class="card-body">
         <img :src="user.picture.large" alt class="avatar" />
         <h5 class="card-title">
           {{user.name}}
-          <i class="fas fa-venus"></i>
+          <i class="fas fa-venus" v-if="user.gender === 'female'"></i>
+          <i class="fas fa-mars" v-else></i>
         </h5>
         <p
           class="card-text"
