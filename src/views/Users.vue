@@ -15,6 +15,7 @@
 
 <script>
 import UserCard from "../components/UserCard.vue";
+
 let dummyUser = [
   {
     isLiked: false,
@@ -48,6 +49,10 @@ let dummyUser = [
       large: "https://randomuser.me/api/portraits/women/6.jpg",
       medium: "https://randomuser.me/api/portraits/med/women/6.jpg",
       thumbnail: "https://randomuser.me/api/portraits/thumb/women/6.jpg",
+    },
+    dob: {
+      date: "1957-08-08T07:47:23.124Z",
+      age: 63,
     },
   },
   {
@@ -83,6 +88,10 @@ let dummyUser = [
       medium: "https://randomuser.me/api/portraits/med/women/63.jpg",
       thumbnail: "https://randomuser.me/api/portraits/thumb/women/63.jpg",
     },
+    dob: {
+      date: "1975-08-18T12:52:13.077Z",
+      age: 45,
+    },
   },
   {
     isLiked: false,
@@ -116,6 +125,10 @@ let dummyUser = [
       large: "https://randomuser.me/api/portraits/men/7.jpg",
       medium: "https://randomuser.me/api/portraits/med/men/7.jpg",
       thumbnail: "https://randomuser.me/api/portraits/thumb/men/7.jpg",
+    },
+    dob: {
+      date: "1975-08-18T12:52:13.077Z",
+      age: 45,
     },
   },
   {
@@ -151,6 +164,10 @@ let dummyUser = [
       medium: "https://randomuser.me/api/portraits/med/men/63.jpg",
       thumbnail: "https://randomuser.me/api/portraits/thumb/men/63.jpg",
     },
+    dob: {
+      date: "1954-11-19T16:43:45.432Z",
+      age: 66,
+    },
   },
 ];
 export default {
@@ -169,7 +186,7 @@ export default {
     fetchUser() {
       // TODO: 給予使用者id
       const data = dummyUser;
-      const like = JSON.parse(sessionStorage.getItem('like'))
+      const like = JSON.parse(sessionStorage.getItem("like"));
       const users = data.map((user) => ({
         ...user,
         isLiked: like.includes(user.id),

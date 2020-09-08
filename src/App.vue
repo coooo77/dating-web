@@ -4,6 +4,7 @@
     <main>
       <router-view />
     </main>
+    <Modal />
   </div>
 </template>
 
@@ -11,10 +12,12 @@
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "../src/components/Navbar";
+import Modal from "..//src/components/Modal.vue";
 
 export default {
   components: {
     Navbar,
+    Modal,
   },
   created() {
     // 用sessionStorage當作資料庫紀錄喜歡的使用者id

@@ -6,7 +6,7 @@
         <i class="far fa-heart" v-else></i>
       </div>
       <img class="card-img-top" src="https://picsum.photos/350/100?random=0" alt="Card image cap" />
-      <div class="card-body">
+      <div class="card-body" data-toggle="modal" data-target="#modal">
         <img :src="user.picture.large" alt class="avatar" />
         <h5 class="card-title">
           {{user.name}}
@@ -30,7 +30,7 @@ export default {
     },
   },
   methods: {
-    changeLike(user) {      
+    changeLike(user) {
       const likedUsers = JSON.parse(sessionStorage.getItem("like"));
 
       if (likedUsers.includes(user.id)) {
