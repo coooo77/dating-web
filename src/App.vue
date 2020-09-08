@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navbar />
-    <main>      
+    <main>
       <router-view />
     </main>
   </div>
@@ -15,6 +15,11 @@ import Navbar from "../src/components/Navbar";
 export default {
   components: {
     Navbar,
+  },
+  created() {
+    // 用sessionStorage當作資料庫紀錄喜歡的使用者id
+    const liked = JSON.parse(sessionStorage.getItem("like"));
+    if (!liked) sessionStorage.setItem("like", "[]");
   },
 };
 </script>
@@ -67,7 +72,7 @@ body::-webkit-scrollbar-thumb {
 @media only screen and (min-width: 600px) {
   main {
     margin: auto;
-    margin-left:5rem;
+    margin-left: 5rem;
   }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="col-6 col-lg-4 col-xl-3 mb-4">
     <div class="card">
-      <div class="like">
+      <div class="like" @click="changeLike(user)">
         <i class="fas fa-heart" v-if="user.isLiked"></i>
         <i class="far fa-heart" v-else></i>
       </div>
@@ -27,6 +27,20 @@ export default {
     user: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    changeLike(user) {      
+      const likedUsers = JSON.parse(sessionStorage.getItem("like"));
+
+      if (likedUsers.includes(user.id)) {
+        likedUsers.splice(likedUsers.indexOf(user.id), 1);
+      } else {
+        likedUsers.push(user.id);
+      }
+      sessionStorage.setItem("like", JSON.stringify(likedUsers));
+
+      this.$emit("afterChangeLiked", user.id);
     },
   },
 };

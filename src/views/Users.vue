@@ -3,7 +3,12 @@
     <h1>Users Page</h1>
 
     <div class="users row">
-      <UserCard v-for="user in users" :key="user.id" :user="user" />
+      <UserCard
+        v-for="user in users"
+        :key="user.id"
+        :user="user"
+        @afterChangeLiked="afterChangeLiked"
+      />
     </div>
   </div>
 </template>
@@ -162,12 +167,20 @@ export default {
   },
   methods: {
     fetchUser() {
+      // TODO: 給予使用者id
       const data = dummyUser;
+      const like = JSON.parse(sessionStorage.getItem('like'))
       const users = data.map((user) => ({
         ...user,
+        isLiked: like.includes(user.id),
         name: Object.values(user.name).join(" "),
       }));
       this.users.push(...users);
+    },
+    afterChangeLiked(id) {
+      this.users.forEach((user) => {
+        if (user.id === id) user.isLiked = !user.isLiked;
+      });
     },
   },
   name: "View-Users",
