@@ -3,36 +3,21 @@
     <h1>Users Page</h1>
 
     <div class="users row">
-
-      <div class="col-6 col-lg-4 col-xl-3 mb-4">
-        <div class="card">
-          <div class="like">
-            <i class="far fa-heart"></i>
-          </div>
-          <img
-            class="card-img-top"
-            src="https://picsum.photos/350/100?random=0"
-            alt="Card image cap"
-          />
-          <div class="card-body">
-            <img :src="users[0].picture.large" alt class="avatar" />
-            <h5 class="card-title">
-              {{users[0].name}}
-              <i class="fas fa-venus"></i>
-            </h5>
-            <p
-              class="card-text"
-            >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae enim sapien. Nam porta risus sem, sit amet pharetra justo vestibulum id. Nulla in eleifend urna, at porta tellus.</p>
-          </div>
-        </div>
-      </div>
+ 
+      <UserCard 
+      v-for="user in users" 
+      :key="user.id" 
+      :user="user"
+      />
 
     </div>
   </div>
 </template>
 
 <script>
+import UserCard from '../components/UserCard.vue'
 let dummyUser = {
+  id:1,
   gender: "female",
   name: {
     title: "Ms",
@@ -70,6 +55,9 @@ export default {
       users: [],
     };
   },
+  components:{
+    UserCard
+  },
   created() {
     this.fetchUser();
   },
@@ -79,8 +67,7 @@ export default {
       const users = data.map((user) => ({
         ...user,
         name: Object.values(user.name).join(" "),
-      }));
-      console.log(users);
+      }));      
       this.users.push(...users);
     },
   },
