@@ -2,28 +2,28 @@
   <nav class="navbar">
     <ul class="navbar-nav">
       <li class="logo">
-        <a href="#" class="nav-link">
+        <router-link to="/" class="nav-link">
           <span class="link-text logo-text">DATING WEBSITE</span>
           <i class="fas fa-angle-double-right"></i>
-        </a>
+        </router-link>
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link">
+        <router-link to="/" class="nav-link">
           <i class="fas fa-home"></i>
           <span class="link-text">首頁</span>
-        </a>
+        </router-link>
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link">
+        <router-link to="/favorite" class="nav-link">
           <i class="fas fa-search"></i>
           <span class="link-text">搜尋</span>
-        </a>
+        </router-link>
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link">
+        <router-link to="/search" class="nav-link">
           <i class="fas fa-kiss-wink-heart"></i>
           <span class="link-text">最愛</span>
-        </a>
+        </router-link>
       </li>
       <li class="nav-item">
         <a href="#" class="nav-link">
@@ -51,13 +51,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;      
+  height: 100%;
 }
 
 .nav-item {
   width: 100%;
   font-size: 1.5rem;
-  font-weight: bold;  
+  font-weight: bold;
 }
 
 .nav-item:last-child {
