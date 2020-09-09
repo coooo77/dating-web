@@ -1,10 +1,10 @@
 import { axiosInstance } from '../utils/helper'
 
 export default {
-  get200Users() {
-    return axiosInstance.get('/?seed=dating&inc=gender,name,location,email,picture,dob&results=200')
+  get240Users() {
+    return axiosInstance.get('/?seed=dating&inc=gender,name,location,email,picture,dob&results=240')
   },
-  get10Users({ page }) {
-    return axiosInstance.get(`/?seed=dating&inc=gender,name,location,email,picture,dob&results=10&page=${page}`)
+  get24Users({ page }) {
+    return axiosInstance.get(`/?seed=dating&inc=gender,name,location,email,picture,dob&results=24&page=${page}`)
   }
 }

@@ -11,10 +11,13 @@
         @afterClickUser="afterClickUser"
       />
     </div>
+
+    <Observer @intersect="intersected" :isAllLoaded="isAllLoaded" />
   </div>
 </template>
 
 <script>
+import Observer from "../components/Observer";
 import UserCard from "../components/UserCard.vue";
 import usersAPI from "../apis/users";
 
@@ -22,34 +25,45 @@ export default {
   data() {
     return {
       users: [],
-      initialUser: [],
-      offset: 24,
+      currentPage: 0,
+      isAllLoaded: false,
     };
   },
   components: {
     UserCard,
-  },
-  created() {
-    this.fetchUser();
+    Observer,
   },
   methods: {
     async fetchUser() {
       try {
-        const { data, status, statusText } = await usersAPI.get200Users();
+        // 設計240位使用者，每次只存取24個使用者
+        if (this.currentPage + 1 === 10) {
+          this.isAllLoaded = true;
+          return;
+        }
+        // [page 1] 1~24 ,[2] 25~48 ,[3] 49~72  ... 製作id
+        const currentPage = Array.from(
+          { length: 24 },
+          (value, index) => index + this.currentPage * 24
+        );
+        const { data, status, statusText } = await usersAPI.get24Users({
+          page: ++this.currentPage,
+        });
 
         if (status !== 200) {
           throw new Error(statusText);
         }
+
         // 補上資料內沒有的id、isLiked、name
         const like = JSON.parse(sessionStorage.getItem("like"));
-        this.initialUser = data.results.map((user, index) => ({
+        const users = data.results.map((user, index) => ({
           ...user,
-          id: index + 1,
-          isLiked: like.includes(index + 1),
+          id: currentPage[index],
+          isLiked: like.includes(currentPage[index]),
           name: Object.values(user.name).splice(1, 2).join(" "),
         }));
 
-        this.users = this.initialUser.slice(0, this.offset);
+        this.users.push(...users);
       } catch (error) {
         console.error;
       }
@@ -61,6 +75,15 @@ export default {
     },
     afterClickUser(user) {
       this.$emit("passUserToModal", user);
+    },
+    intersected([observer, element]) {
+      console.log(`current page：${this.currentPage + 1}`);
+      if (this.isAllLoaded) {
+        // 如果所有資料都已經取出來了，就解除監視器
+        observer.unobserve(element);
+      } else {
+        this.fetchUser();
+      }
     },
   },
   name: "View-Users",
