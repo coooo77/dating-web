@@ -16,165 +16,14 @@
 
 <script>
 import UserCard from "../components/UserCard.vue";
+import usersAPI from "../apis/users";
 
-let dummyUser = [
-  {
-    isLiked: false,
-    id: 1,
-    gender: "female",
-    name: {
-      title: "Ms",
-      first: "Ege",
-      last: "Aykaç",
-    },
-    location: {
-      street: {
-        number: 1666,
-        name: "Fatih Sultan Mehmet Cd",
-      },
-      city: "İstanbul",
-      state: "Denizli",
-      country: "Turkey",
-      postcode: 74279,
-      coordinates: {
-        latitude: "74.0895",
-        longitude: "149.7724",
-      },
-      timezone: {
-        offset: "-2:00",
-        description: "Mid-Atlantic",
-      },
-    },
-    email: "ege.aykac@example.com",
-    picture: {
-      large: "https://randomuser.me/api/portraits/women/6.jpg",
-      medium: "https://randomuser.me/api/portraits/med/women/6.jpg",
-      thumbnail: "https://randomuser.me/api/portraits/thumb/women/6.jpg",
-    },
-    dob: {
-      date: "1957-08-08T07:47:23.124Z",
-      age: 63,
-    },
-  },
-  {
-    isLiked: false,
-    id: 2,
-    gender: "female",
-    name: {
-      title: "Miss",
-      first: "Marion",
-      last: "Dunn",
-    },
-    location: {
-      street: {
-        number: 5723,
-        name: "Oak Lawn Ave",
-      },
-      city: "Thousand Oaks",
-      state: "Indiana",
-      country: "United States",
-      postcode: 63672,
-      coordinates: {
-        latitude: "30.7380",
-        longitude: "-137.3606",
-      },
-      timezone: {
-        offset: "+3:30",
-        description: "Tehran",
-      },
-    },
-    email: "marion.dunn@example.com",
-    picture: {
-      large: "https://randomuser.me/api/portraits/women/63.jpg",
-      medium: "https://randomuser.me/api/portraits/med/women/63.jpg",
-      thumbnail: "https://randomuser.me/api/portraits/thumb/women/63.jpg",
-    },
-    dob: {
-      date: "1975-08-18T12:52:13.077Z",
-      age: 45,
-    },
-  },
-  {
-    isLiked: false,
-    id: 3,
-    gender: "male",
-    name: {
-      title: "Mr",
-      first: "Braxton",
-      last: "Moore",
-    },
-    location: {
-      street: {
-        number: 3056,
-        name: "Beach Road",
-      },
-      city: "Taupo",
-      state: "Manawatu-Wanganui",
-      country: "New Zealand",
-      postcode: 85734,
-      coordinates: {
-        latitude: "39.6016",
-        longitude: "171.4517",
-      },
-      timezone: {
-        offset: "+5:45",
-        description: "Kathmandu",
-      },
-    },
-    email: "braxton.moore@example.com",
-    picture: {
-      large: "https://randomuser.me/api/portraits/men/7.jpg",
-      medium: "https://randomuser.me/api/portraits/med/men/7.jpg",
-      thumbnail: "https://randomuser.me/api/portraits/thumb/men/7.jpg",
-    },
-    dob: {
-      date: "1975-08-18T12:52:13.077Z",
-      age: 45,
-    },
-  },
-  {
-    isLiked: false,
-    id: 4,
-    gender: "male",
-    name: {
-      title: "Mr",
-      first: "Jairo",
-      last: "Ferreira",
-    },
-    location: {
-      street: {
-        number: 4170,
-        name: "Rua Rio de Janeiro ",
-      },
-      city: "Formosa",
-      state: "São Paulo",
-      country: "Brazil",
-      postcode: 37212,
-      coordinates: {
-        latitude: "63.9631",
-        longitude: "9.1061",
-      },
-      timezone: {
-        offset: "+10:00",
-        description: "Eastern Australia, Guam, Vladivostok",
-      },
-    },
-    email: "jairo.ferreira@example.com",
-    picture: {
-      large: "https://randomuser.me/api/portraits/men/63.jpg",
-      medium: "https://randomuser.me/api/portraits/med/men/63.jpg",
-      thumbnail: "https://randomuser.me/api/portraits/thumb/men/63.jpg",
-    },
-    dob: {
-      date: "1954-11-19T16:43:45.432Z",
-      age: 66,
-    },
-  },
-];
 export default {
   data() {
     return {
       users: [],
+      initialUser: [],
+      offset: 24,
     };
   },
   components: {
@@ -184,16 +33,26 @@ export default {
     this.fetchUser();
   },
   methods: {
-    fetchUser() {
-      // TODO: 給予使用者id
-      const data = dummyUser;
-      const like = JSON.parse(sessionStorage.getItem("like"));
-      const users = data.map((user) => ({
-        ...user,
-        isLiked: like.includes(user.id),
-        name: Object.values(user.name).join(" "),
-      }));
-      this.users.push(...users);
+    async fetchUser() {
+      try {
+        const { data, status, statusText } = await usersAPI.get200Users();
+
+        if (status !== 200) {
+          throw new Error(statusText);
+        }
+        // 補上資料內沒有的id、isLiked、name
+        const like = JSON.parse(sessionStorage.getItem("like"));
+        this.initialUser = data.results.map((user, index) => ({
+          ...user,
+          id: index + 1,
+          isLiked: like.includes(index + 1),
+          name: Object.values(user.name).splice(1, 2).join(" "),
+        }));
+
+        this.users = this.initialUser.slice(0, this.offset);
+      } catch (error) {
+        console.error;
+      }
     },
     afterChangeLiked(id) {
       this.users.forEach((user) => {
