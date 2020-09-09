@@ -26,7 +26,44 @@ export default {
   },
   data() {
     return {
-      modalUser: {},
+      modalUser: {
+        isLiked: false,
+        id: -1,
+        gender: "",
+        name: {
+          title: "",
+          first: "",
+          last: "",
+        },
+        location: {
+          street: {
+            number: -1,
+            name: "",
+          },
+          city: "",
+          state: "",
+          country: "",
+          postcode: -1,
+          coordinates: {
+            latitude: "",
+            longitude: "",
+          },
+          timezone: {
+            offset: "",
+            description: "",
+          },
+        },
+        email: "",
+        picture: {
+          large: "",
+          medium: "",
+          thumbnail: "",
+        },
+        dob: {
+          date: "",
+          age: -1,
+        },
+      },
     };
   },
   methods: {
