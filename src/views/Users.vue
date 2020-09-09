@@ -12,11 +12,16 @@
       />
     </div>
 
+    <Spinner v-if="isLoading" />
+    <Alert v-if="isAllLoaded" />
+
     <Observer @intersect="intersected" :isAllLoaded="isAllLoaded" />
   </div>
 </template>
 
 <script>
+import Alert from "../components/Alert";
+import Spinner from "../components/Spinner";
 import Observer from "../components/Observer";
 import UserCard from "../components/UserCard.vue";
 import usersAPI from "../apis/users";
@@ -27,18 +32,23 @@ export default {
       users: [],
       currentPage: 0,
       isAllLoaded: false,
+      isLoading: false,
     };
   },
   components: {
     UserCard,
     Observer,
+    Spinner,
+    Alert,
   },
   methods: {
     async fetchUser() {
       try {
+        this.isLoading = true;
         // 設計240位使用者，每次只存取24個使用者
         if (this.currentPage + 1 === 10) {
           this.isAllLoaded = true;
+          this.isLoading = false;
           return;
         }
         // [page 1] 1~24 ,[2] 25~48 ,[3] 49~72  ... 製作id
@@ -64,7 +74,9 @@ export default {
         }));
 
         this.users.push(...users);
+        this.isLoading = false;
       } catch (error) {
+        this.isLoading = false;
         console.error;
       }
     },
