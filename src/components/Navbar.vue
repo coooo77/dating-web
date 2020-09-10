@@ -14,13 +14,13 @@
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/favorite" class="nav-link">
+        <router-link to="/search" class="nav-link">
           <i class="fas fa-search"></i>
           <span class="link-text">搜尋</span>
         </router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/search" class="nav-link">
+        <router-link to="/favorite" class="nav-link">
           <i class="fas fa-kiss-wink-heart"></i>
           <span class="link-text">最愛</span>
         </router-link>
