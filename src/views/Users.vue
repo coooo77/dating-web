@@ -13,7 +13,7 @@
     </div>
 
     <Spinner v-if="isLoading" />
-    <Alert v-if="isAllLoaded" />
+    <Alert v-if="isAllLoaded" :wrong="wrong" />
 
     <Observer @intersect="intersected" :isAllLoaded="isAllLoaded" />
   </div>
@@ -33,6 +33,10 @@ export default {
       currentPage: 0,
       isAllLoaded: false,
       isLoading: false,
+      wrong: {
+        strong: "已經到頁底!",
+        text: "所有使用者已經顯示完畢。",
+      },
     };
   },
   components: {

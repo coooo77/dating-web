@@ -11,15 +11,14 @@
       />
     </div>
 
-    <div class="bg-info text-center my-5" v-if="isNoFavoritedUser">
-      <strong>沒有任何喜愛的使用者！</strong>請在首頁點選愛心圖案將使用者加入到最愛中。
-    </div>
+    <Alert v-if="isNoFavoritedUser" :wrong="wrong" />
 
     <Spinner v-if="isLoading" />
   </div>
 </template>
 
 <script>
+import Alert from "../components/Alert";
 import Spinner from "../components/Spinner";
 import UserCard from "../components/UserCard.vue";
 import usersAPI from "../apis/users";
@@ -34,11 +33,16 @@ export default {
       users: [],
       isLoading: false,
       isNoFavoritedUser: false,
+      wrong: {
+        strong: "沒有任何喜愛的使用者!",
+        text: "請在首頁點選愛心圖案將使用者加入到最愛中。",
+      },
     };
   },
   components: {
     UserCard,
     Spinner,
+    Alert,
   },
   methods: {
     async fetchAllUsers() {
@@ -80,14 +84,6 @@ export default {
 </script>
 
 <style scoped>
-.bg-info {
-  height: 5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 1rem;
-}
-
 @media only screen and (max-width: 600px) {
   .users {
     margin: auto;

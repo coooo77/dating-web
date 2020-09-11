@@ -1,8 +1,20 @@
 <template>
   <div class="alert alert-info alert-dismissible fade show" role="alert">
-    <strong>已經到頁底!</strong> 所有使用者已經顯示完畢。
+    <strong>{{wrong.strong}}!</strong>
+    {{wrong.text}}
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    wrong: {
+      type: Object,
+      require: true,
+    },
+  },
+};
+</script>
