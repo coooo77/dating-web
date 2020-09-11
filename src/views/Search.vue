@@ -1,32 +1,50 @@
 <template>
   <div class="search">
     <Searchbar @after-submit="handleAfterSubmit" />
+    <Alert v-if="isWrong" :wrong="wrongInformation" />
   </div>
 </template>
 
 <script>
 import Searchbar from "../components/Searchbar";
 import usersAPI from "../apis/users";
+import Alert from "../components/Alert";
 
 export default {
   created() {
+    this.isWrong = true;
+    this.wrongInformation = this.wrong.initialSearch;
     this.fetchAllUsers();
   },
   data() {
     return {
       searchResult: [],
       initialUsers: [],
-      isWrongSearch: false,
-      isNoResult: false,
+      isWrong: false,
+      wrong: {
+        initialSearch: {
+          strong: "請輸入設定！",
+          text: "尋找理想的好友！",
+        },
+        wrongSearch: {
+          strong: "發生錯誤",
+          text: "請重新搜尋！",
+        },
+        noResult: {
+          strong: "沒有任何符合的資料",
+          text: "請重新搜尋！",
+        },
+      },
+      wrongInformation: {},
     };
   },
   components: {
     Searchbar,
+    Alert,
   },
   methods: {
     handleAfterSubmit(formData) {
-      this.isWrongSearch = false;
-      this.isNoResult = false;
+      this.isWrong = false;
 
       let query = {};
       for (let [name, value] of formData.entries()) {
@@ -35,7 +53,8 @@ export default {
 
       // 避免有使用者輸入錯誤的年齡範圍
       if (query["min-age"] > query["max-age"]) {
-        this.isWrongSearch = true;
+        this.isWrong = true;
+        this.wrongInformation = this.wrong.wrongSearch;
         return;
       }
 
@@ -48,7 +67,8 @@ export default {
       );
 
       if (filteredUsers.length === 0) {
-        this.isNoResult = true;
+        this.isWrong = true;
+        this.wrongInformation = this.wrong.noResult;
       } else {
         this.searchResult = [...filteredUsers];
       }
