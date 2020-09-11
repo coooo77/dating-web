@@ -58,7 +58,7 @@ export default {
         const like = JSON.parse(sessionStorage.getItem("like"));
         // 因為CORS，所以要執行到有資料為止
         while (this.initialUsers.length === 0) {
-          const { data, status, statusText } = await usersAPI.get240Users();
+          const { data, status, statusText } = await usersAPI.get120Users();
 
           if (status !== 200) {
             throw new Error(statusText);

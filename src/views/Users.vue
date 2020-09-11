@@ -49,18 +49,18 @@ export default {
     async fetchUser() {
       try {
         this.isLoading = true;
-        // 設計240位使用者，每次只存取24個使用者
-        if (this.currentPage + 1 === 10) {
+        // 設計120位使用者，每次只存取24個使用者
+        if (this.currentPage + 1 === 5) {
           this.isAllLoaded = true;
           this.isLoading = false;
           return;
         }
-        // [page 1] 1~24 ,[2] 25~48 ,[3] 49~72  ... 製作id
+        // [page 1] 1~12 ,[2] 13~24 ,[3] 25~36  ... 製作id
         const currentPage = Array.from(
-          { length: 24 },
-          (value, index) => index + this.currentPage * 24
+          { length: 12 },
+          (value, index) => index + 1 + this.currentPage * 12
         );
-        const { data, status, statusText } = await usersAPI.get24Users({
+        const { data, status, statusText } = await usersAPI.get12Users({
           page: ++this.currentPage,
         });
 

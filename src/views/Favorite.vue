@@ -48,7 +48,7 @@ export default {
     async fetchAllUsers() {
       try {
         this.isLoading = true;
-        const { data, status, statusText } = await usersAPI.get240Users();
+        const { data, status, statusText } = await usersAPI.get120Users();
 
         if (status !== 200) {
           throw new Error(statusText);
