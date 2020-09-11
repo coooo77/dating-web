@@ -3,7 +3,7 @@
     <form id="search-form" class="form-inline" @submit.prevent="handleSearch">
       <div class="d-inline">
         <span>找</span>
-        <select name="gender" v-model="gender" required>
+        <select name="gender" v-model="gender">
           <option value selected disabled>--性別--</option>
           <option
             v-for="gender in genderOption"
@@ -59,6 +59,11 @@ export default {
           id: 2,
           name: "女性",
           value: "female",
+        },
+        {
+          id: 3,
+          name: "無限制",
+          value: "",
         },
       ],
       gender: "",
