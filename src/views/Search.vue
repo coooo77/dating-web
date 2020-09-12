@@ -12,7 +12,11 @@
           @afterClickUser="afterClickUser"
         />
       </div>
-      <Alert v-if="state.isAllLoaded && !state.isInitial" :wrong="wrong.allLoad" />
+      <Alert
+        v-if="state.isAllLoaded && !state.isInitial"
+        :wrong="wrong.allLoad"
+        :showXBtn="wrong.allLoad.showXBtn"
+      />
     </div>
 
     <Spinner v-if="state.isLoading" />
@@ -62,6 +66,7 @@ export default {
         allLoad: {
           strong: "已經到頁底!",
           text: "所有使用者已經顯示完畢。",
+          showXBtn: false,
         },
       },
       wrongInformation: {},
