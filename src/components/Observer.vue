@@ -13,7 +13,7 @@ export default {
     this.observer = new IntersectionObserver(([entry]) => {
       if (entry && entry.isIntersecting) {
         // 告訴父層使用者已經拉到底部
-        this.$emit("intersect", [this.observer,this.$el]);
+        this.$emit("intersect", [this.observer, this.$el]);
       }
     });
 
