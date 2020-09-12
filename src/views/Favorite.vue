@@ -1,6 +1,7 @@
 <template>
   <div class="container mt-5">
     <h1>Favorite Page</h1>
+    <hr class="my-4" />
     <div class="users row mt-5">
       <UserCard
         v-for="user in users"

@@ -1,25 +1,27 @@
 <template>
-  <div class="container mt-5">
-    <h1>Users Page</h1>
+  <div class="home">
+    <Jumbotron />
+    <div class="container mt-5">
+      <div class="users row mt-5">
+        <UserCard
+          v-for="user in users"
+          :key="user.id"
+          :user="user"
+          @afterChangeLiked="afterChangeLiked"
+          @afterClickUser="afterClickUser"
+        />
+      </div>
 
-    <div class="users row mt-5">
-      <UserCard
-        v-for="user in users"
-        :key="user.id"
-        :user="user"
-        @afterChangeLiked="afterChangeLiked"
-        @afterClickUser="afterClickUser"
-      />
+      <Spinner v-if="isLoading" />
+      <Alert v-if="isAllLoaded" :wrong="wrong" />
+
+      <Observer @intersect="intersected" :isAllLoaded="isAllLoaded" />
     </div>
-
-    <Spinner v-if="isLoading" />
-    <Alert v-if="isAllLoaded" :wrong="wrong" />
-
-    <Observer @intersect="intersected" :isAllLoaded="isAllLoaded" />
   </div>
 </template>
 
 <script>
+import Jumbotron from "../components/jumbotron";
 import Alert from "../components/Alert";
 import Spinner from "../components/Spinner";
 import Observer from "../components/Observer";
@@ -44,6 +46,7 @@ export default {
     Observer,
     Spinner,
     Alert,
+    Jumbotron,
   },
   methods: {
     async fetchUser() {
