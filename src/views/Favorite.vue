@@ -1,7 +1,7 @@
 <template>
-  <div class="container border border-danger">
+  <div class="container mt-5">
     <h1>Favorite Page</h1>
-    <div class="users row">
+    <div class="users row mt-5">
       <UserCard
         v-for="user in users"
         :key="user.id"
