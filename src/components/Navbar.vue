@@ -25,15 +25,36 @@
           <span class="link-text">最愛</span>
         </router-link>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" @click="changeMode">
         <a href="#" class="nav-link">
-          <i class="fas fa-moon"></i>
+          <i class="fas fa-moon theme-icon" id='moon'></i>
+          <i class="fas fa-sun theme-icon" id='sun'></i>
           <span class="link-text">模式</span>
         </a>
       </li>
     </ul>
   </nav>
 </template>
+
+<script>
+export default {
+  props: {
+    themeMap: {
+      type: Object,
+      required: true,
+    },
+  },
+  methods: {
+    changeMode() {
+      const current = sessionStorage.getItem("theme");
+      const next = this.themeMap[current];
+      const bodyClass = document.body.classList;
+      bodyClass.replace(current, next);
+      sessionStorage.setItem("theme", next);
+    },
+  },
+};
+</script>
 
 <style scoped>
 .navbar {
@@ -120,6 +141,18 @@
 
 .navbar:hover .logo i {
   transform: rotate(-180deg);
+}
+
+.theme-icon {
+  display: none;
+}
+
+.light #sun {
+  display:block;
+}
+
+.dark #moon {
+  display:block;
 }
 
 @media only screen and (max-width: 600px) {

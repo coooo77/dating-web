@@ -99,3 +99,9 @@ export default {
   }
 }
 </style>
+
+<style scoped>
+h1, hr {  
+  color: var(--text-tertiary);
+}
+</style>

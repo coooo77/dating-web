@@ -54,6 +54,8 @@ export default {
   width: 15rem;
   border-radius: 1rem;
   border: 2px solid rgb(223, 223, 223);
+  background-color: var(--bg-tertiary);
+  color: var(--text-tertiary);
 }
 
 .card-text {
