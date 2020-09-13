@@ -5,7 +5,7 @@
         <i class="fas fa-heart" v-if="user.isLiked"></i>
         <i class="far fa-heart" v-else></i>
       </div>
-      <img class="card-img-top" src="https://picsum.photos/350/100?random=0" alt="Card image cap" />
+      <img class="card-img-top" :src="getRandomPhoto(user.id)" alt="Card image cap" />
       <div class="card-body" data-toggle="modal" data-target="#modal" @click="clickUser(user)">
         <img :src="user.picture.large" alt class="avatar" />
         <h5 class="card-title">
@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import getRandomPhoto from "../apis/photos.js";
+
 export default {
   props: {
     user: {
@@ -45,6 +47,7 @@ export default {
     clickUser(user) {
       this.$emit("afterClickUser", user);
     },
+    getRandomPhoto,
   },
 };
 </script>
