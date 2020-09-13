@@ -31,6 +31,7 @@ import Observer from "../components/Observer";
 import Searchbar from "../components/Searchbar";
 import UserCard from "../components/UserCard.vue";
 import usersAPI from "../apis/users";
+import { toggleLike, passUserToModal } from "../utils/mixins";
 
 export default {
   created() {
@@ -170,14 +171,7 @@ export default {
       // 因為會有重複搜尋的情況，所以不解除observer
       this.fetchMoreUser();
     },
-    afterChangeLiked(id) {
-      this.users.forEach((user) => {
-        if (user.id === id) user.isLiked = !user.isLiked;
-      });
-    },
-    afterClickUser(user) {
-      this.$emit("passUserToModal", user);
-    },
   },
+  mixins: [toggleLike, passUserToModal],
 };
 </script>

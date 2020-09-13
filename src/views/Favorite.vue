@@ -23,6 +23,7 @@ import Alert from "../components/Alert";
 import Spinner from "../components/Spinner";
 import UserCard from "../components/UserCard.vue";
 import usersAPI from "../apis/users";
+import { toggleLike, passUserToModal } from "../utils/mixins";
 
 export default {
   created() {
@@ -72,15 +73,8 @@ export default {
         console.error(error);
       }
     },
-    afterChangeLiked(id) {
-      this.users.forEach((user) => {
-        if (user.id === id) user.isLiked = !user.isLiked;
-      });
-    },
-    afterClickUser(user) {
-      this.$emit("passUserToModal", user);
-    },
   },
+  mixins: [toggleLike, passUserToModal],
 };
 </script>
 
@@ -101,7 +95,8 @@ export default {
 </style>
 
 <style scoped>
-h1, hr {  
+h1,
+hr {
   color: var(--text-tertiary);
 }
 </style>
