@@ -32,6 +32,7 @@ import Searchbar from "../components/Searchbar";
 import UserCard from "../components/UserCard.vue";
 import usersAPI from "../apis/users";
 import { toggleLike, passUserToModal } from "../utils/mixins";
+import { Toast } from "../utils/helper";
 
 export default {
   created() {
@@ -137,6 +138,10 @@ export default {
         }
       } catch (error) {
         console.error(error);
+        Toast.fire({
+          icon: "error",
+          title: "伺服器忙碌中，請稍後再試",
+        });
       }
     },
     filterUsers(users, min, max, gender, location) {

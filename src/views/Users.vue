@@ -28,6 +28,7 @@ import Observer from "../components/Observer";
 import UserCard from "../components/UserCard.vue";
 import usersAPI from "../apis/users";
 import { toggleLike, passUserToModal } from "../utils/mixins";
+import { Toast } from "../utils/helper";
 
 export default {
   data() {
@@ -86,6 +87,10 @@ export default {
       } catch (error) {
         this.isLoading = false;
         console.error;
+        Toast.fire({
+          icon: "error",
+          title: "伺服器忙碌中，請稍後再試",
+        });
       }
     },
     intersected([observer, element]) {
