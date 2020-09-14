@@ -4,6 +4,8 @@
     <main>
       <router-view @passUserToModal="passUserToModal" />
     </main>
+
+    <BackToTopBtn />
     <Modal :modalUser="modalUser" />
   </div>
 </template>
@@ -13,11 +15,13 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "../src/components/Navbar";
 import Modal from "..//src/components/Modal.vue";
+import BackToTopBtn from "../src/components/BackToTopBtn";
 
 export default {
   components: {
     Navbar,
     Modal,
+    BackToTopBtn,
   },
   created() {
     // 用sessionStorage當作資料庫紀錄喜歡的使用者id
