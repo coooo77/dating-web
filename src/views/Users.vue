@@ -31,9 +31,14 @@ import { toggleLike, passUserToModal } from "../utils/mixins";
 import { Toast } from "../utils/helper";
 
 export default {
+  created() {
+    this.fetchAllUsers();
+  },
   data() {
     return {
       users: [],
+      initialUsers: [],
+      offset: 12,
       currentPage: 0,
       isAllLoaded: false,
       isLoading: false,
@@ -51,36 +56,47 @@ export default {
     Jumbotron,
   },
   methods: {
-    async fetchUser() {
+    async fetchAllUsers() {
       try {
         this.isLoading = true;
+        const like = JSON.parse(sessionStorage.getItem("like"));
+        // 因為CORS，所以要執行到有資料為止
+        while (this.initialUsers.length === 0) {
+          const { data, status, statusText } = await usersAPI.get120Users();
+
+          if (status !== 200) {
+            throw new Error(statusText);
+          }
+
+          this.initialUsers = data.results.map((user, index) => ({
+            ...user,
+            id: index + 1,
+            name: Object.values(user.name).splice(1, 2).join(" "),
+            isLiked: like.includes(index + 1),
+          }));
+
+          const users = this.initialUsers.splice(0, this.offset);
+
+          this.users.push(...users);
+          this.isLoading = false;
+        }
+      } catch (error) {
+        console.error(error);
+        Toast.fire({
+          icon: "error",
+          title: "伺服器忙碌中，請稍後再試",
+        });
+      }
+    },
+    async fetchUser() {
+      try {
         // 設計120位使用者，每次只存取12個使用者
         if (this.currentPage + 1 === 10) {
           this.isAllLoaded = true;
           this.isLoading = false;
           return;
         }
-        // [page 1] 1~12 ,[2] 13~24 ,[3] 25~36  ... 製作id
-        const currentPage = Array.from(
-          { length: 12 },
-          (value, index) => index + 1 + this.currentPage * 12
-        );
-        const { data, status, statusText } = await usersAPI.get12Users({
-          page: ++this.currentPage,
-        });
-
-        if (status !== 200) {
-          throw new Error(statusText);
-        }
-
-        // 補上資料內沒有的id、isLiked、name
-        const like = JSON.parse(sessionStorage.getItem("like"));
-        const users = data.results.map((user, index) => ({
-          ...user,
-          id: currentPage[index],
-          isLiked: like.includes(currentPage[index]),
-          name: Object.values(user.name).splice(1, 2).join(" "),
-        }));
+        const users = this.initialUsers.splice(0, this.offset);
 
         this.users.push(...users);
         this.isLoading = false;
@@ -94,12 +110,15 @@ export default {
       }
     },
     intersected([observer, element]) {
-      console.log(`current page：${this.currentPage + 1}`);
+      console.log(`current page：${++this.currentPage}`);
       if (this.isAllLoaded) {
         // 如果所有資料都已經取出來了，就解除監視器
         observer.unobserve(element);
       } else {
-        this.fetchUser();
+        this.isLoading = true;
+        setTimeout(() => {
+          this.fetchUser();
+        }, 500);
       }
     },
   },
