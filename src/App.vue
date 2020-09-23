@@ -135,7 +135,7 @@ body::-webkit-scrollbar-thumb {
   --bg-primary: #23232e;
   --bg-secondary: #141418;
   --bg-tertiary: #272731;
-  --bg-img: url("../src/assets/dark.png");
+  --bg-img: url("../src/assets/dark.jpg");
 }
 
 .light {
@@ -145,7 +145,7 @@ body::-webkit-scrollbar-thumb {
   --bg-primary: #fdf6e3;
   --bg-secondary: #f5e5b8;
   --bg-tertiary: #e9e7d4;
-  --bg-img: url("../src/assets/light.png");
+  --bg-img: url("../src/assets/light.jpg");
 }
 
 @media only screen and (max-width: 600px) {
